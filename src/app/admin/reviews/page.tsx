@@ -1,7 +1,7 @@
 import { ReviewsPage } from "@/components/admin/reviews/ReviewsPage";
 import { getClients, getAllReviews } from "@/lib/supabase/queries";
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function ReviewsRoute() {
   const initialReviews = await getAllReviews();
