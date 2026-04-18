@@ -90,7 +90,7 @@ export async function getWorkById(id: string): Promise<Work | null> {
  * the previous sequential two-query waterfall.
  */
 export async function getNextWork(currentOrderIndex: number): Promise<Work | null> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
 
   // Fetch the next work AND the first work (fallback) in parallel.
   const [nextResult, firstResult] = await Promise.all([
@@ -114,7 +114,7 @@ export async function getNextWork(currentOrderIndex: number): Promise<Work | nul
 }
 
 export async function getFeaturedWorks(): Promise<Work[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('works')
     .select('*')
@@ -180,7 +180,7 @@ export const getServices = unstable_cache(
 // ─── bts ──────────────────────────────────────────────────────────────────────
 
 export async function getBts(): Promise<BtsItem[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('bts')
     .select('*')
@@ -193,7 +193,7 @@ export async function getBts(): Promise<BtsItem[]> {
 // ─── team ─────────────────────────────────────────────────────────────────────
 
 export async function getTeam(featuredOnly = false): Promise<TeamMember[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   let query = supabase
     .from('team')
     .select('*')
@@ -209,7 +209,7 @@ export async function getTeam(featuredOnly = false): Promise<TeamMember[]> {
 // ─── careers ──────────────────────────────────────────────────────────────────
 
 export async function getCareers(openOnly = true): Promise<Career[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   let query = supabase
     .from('careers')
     .select('*')
@@ -225,7 +225,7 @@ export async function getCareers(openOnly = true): Promise<Career[]> {
 // ─── clients ──────────────────────────────────────────────────────────────────
 
 export async function getClients(): Promise<Client[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('clients')
     .select('*')
@@ -236,7 +236,7 @@ export async function getClients(): Promise<Client[]> {
 }
 
 export async function getClientBySlug(slug: string): Promise<Client | null> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('clients')
     .select('*')
@@ -254,7 +254,7 @@ export async function getClientBySlug(slug: string): Promise<Client | null> {
  * now sends 1 request and decomposes the joined payload on the server.
  */
 export async function getClientWithRelations(slug: string): Promise<{ client: Client, works: Work[], reviews: Review[] } | null> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('clients')
     .select('*, works(*), reviews(*)')
@@ -277,7 +277,7 @@ export async function getClientWithRelations(slug: string): Promise<{ client: Cl
 // ─── reviews ──────────────────────────────────────────────────────────────────
 
 export async function getAllReviews(): Promise<Review[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('reviews')
     .select('*, clients(*)')
@@ -288,7 +288,7 @@ export async function getAllReviews(): Promise<Review[]> {
 }
 
 export async function getFeaturedReviews(): Promise<Review[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('reviews')
     .select('*, clients(*)')
@@ -300,7 +300,7 @@ export async function getFeaturedReviews(): Promise<Review[]> {
 }
 
 export async function getReviewsByClient(clientId: string): Promise<Review[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('reviews')
     .select('*, clients(*)')
@@ -314,7 +314,7 @@ export async function getReviewsByClient(clientId: string): Promise<Review[]> {
 // ─── client_logos (deprecated) ────────────────────────────────────────────────
 
 export async function getClientLogos(): Promise<ClientLogo[]> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase
     .from('client_logos')
     .select('*')
@@ -327,7 +327,7 @@ export async function getClientLogos(): Promise<ClientLogo[]> {
 // ─── site_settings ────────────────────────────────────────────────────────────
 
 export async function getSiteSettings(): Promise<Record<string, string>> {
-  const supabase = await createClient();
+  const supabase = createAnonClient();
   const { data, error } = await supabase.from('site_settings').select('*');
 
   if (error) { console.error('[getSiteSettings]', error.message); return {}; }
