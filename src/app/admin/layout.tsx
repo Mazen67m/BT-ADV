@@ -19,6 +19,10 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
+// Force all admin pages to render on-demand — never prerender at build time.
+// This cascades to all child pages in the /admin segment.
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
 import { headers } from 'next/headers';
 import { AdminSidebar } from '@/components/admin/layout/AdminSidebar';
