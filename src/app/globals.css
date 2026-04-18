@@ -8,6 +8,7 @@
   --color-navy-light: #0a3355;
   --font-latin: var(--font-inter), sans-serif;
   --font-arabic: var(--font-cairo), sans-serif;
+  --font-display: var(--font-display), sans-serif;
 }
 
 :root {

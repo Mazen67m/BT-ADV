@@ -26,7 +26,7 @@ export default function Footer() {
               Band<span className="text-yellow">-</span>Trend
             </span>
           </Link>
-          <p className="text-white/60 text-sm max-w-sm">
+          <p className="text-white/60 text-base md:text-sm max-w-sm">
             {t("footer.description")}
           </p>
           <div className="flex gap-4 mt-2">
@@ -34,7 +34,7 @@ export default function Footer() {
               href="https://www.instagram.com/bt.advertising.agency" 
               target="_blank" 
               rel="noreferrer" 
-              className="text-white hover:text-yellow transition-colors font-bold text-sm tracking-widest uppercase flex items-center gap-1"
+              className="text-white hover:text-yellow transition-colors font-bold text-base md:text-sm tracking-widest uppercase flex items-center gap-1 p-2 -ml-2"
             >
               IG
             </a>
@@ -42,7 +42,7 @@ export default function Footer() {
               href="https://www.facebook.com/share/18UHCvKB16/" 
               target="_blank" 
               rel="noreferrer" 
-              className="text-white hover:text-yellow transition-colors font-bold text-sm tracking-widest uppercase flex items-center gap-1"
+              className="text-white hover:text-yellow transition-colors font-bold text-base md:text-sm tracking-widest uppercase flex items-center gap-1 p-2"
             >
               FB
             </a>
@@ -52,21 +52,21 @@ export default function Footer() {
         {/* Links */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold uppercase tracking-wider mb-2">{t("footer.navigation")}</h4>
-          <ul className="grid grid-cols-2 gap-2 text-sm text-white/70">
-            <li><Link href="/works" className="hover:text-yellow transition-colors">{t("nav.works")}</Link></li>
-            <li><Link href="/pricing" className="hover:text-yellow transition-colors">{t("nav.pricing")}</Link></li>
-            <li><Link href="/bts" className="hover:text-yellow transition-colors">{t("nav.bts")}</Link></li>
-            <li><Link href="/teamwork" className="hover:text-yellow transition-colors">{t("nav.teamwork")}</Link></li>
-            <li><Link href="/about" className="hover:text-yellow transition-colors">{t("nav.about")}</Link></li>
-            <li><Link href="/careers" className="hover:text-yellow transition-colors">{t("nav.careers")}</Link></li>
-            <li><Link href="/contact" className="hover:text-yellow transition-colors">{t("nav.contact")}</Link></li>
+          <ul className="grid grid-cols-2 gap-2 text-base md:text-sm text-white/70">
+            <li><Link href="/works" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.works")}</Link></li>
+            <li><Link href="/pricing" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.pricing")}</Link></li>
+            <li><Link href="/bts" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.bts")}</Link></li>
+            <li><Link href="/teamwork" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.teamwork")}</Link></li>
+            <li><Link href="/about" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.about")}</Link></li>
+            <li><Link href="/careers" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.careers")}</Link></li>
+            <li><Link href="/contact" className="hover:text-yellow transition-colors block py-2 md:py-1">{t("nav.contact")}</Link></li>
           </ul>
         </div>
 
         {/* Contact info placeholder */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold uppercase tracking-wider mb-2">{t("footer.connect")}</h4>
-          <ul className="flex flex-col gap-3 text-sm text-white/70">
+          <ul className="flex flex-col gap-3 text-base md:text-sm text-white/70">
             <li className="flex items-center gap-3">
               <MapPin size={16} className="text-yellow" /> Cairo, Egypt (HQ)
             </li>
@@ -80,7 +80,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="w-full max-w-7xl border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/40 uppercase tracking-widest gap-4">
+      <div className="w-full max-w-7xl border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/60 uppercase tracking-widest gap-4">
         <p>© {new Date().getFullYear()} BT-ADV. {t("footer.rights")}</p>
         <p>{t("footer.slogan")}</p>
       </div>

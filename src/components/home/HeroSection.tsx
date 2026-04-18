@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,11 +15,13 @@ interface Props {
 export default function HeroSection({ logos = [] }: Props) {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const { t } = useLanguage();
+  const HERO_VIDEO_ID = process.env.NEXT_PUBLIC_HERO_VIDEO_ID;
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <section className="relative h-screen w-full flex flex-col items-center justify-start overflow-hidden bg-black selection:bg-yellow selection:text-navy">
       {/* Background Layer (Shifted up on portrait/folds/tablets) */}
-      <div className="absolute inset-0 z-0 transform xl:translate-y-0 -translate-y-[12%] scale-150 sm:scale-125 xl:scale-100 transition-transform duration-1000 pointer-events-none">
+      <div className="absolute inset-0 z-0 transform -translate-y-[27%] sm:-translate-y-[12%] xl:translate-y-0 scale-[1.35] sm:scale-125 xl:scale-100 transition-transform duration-1000 pointer-events-none">
         <Image 
           src="/img.png" 
           alt="Cinematic background for BT-ADV" 
@@ -38,11 +40,11 @@ export default function HeroSection({ logos = [] }: Props) {
       <motion.div
         className="absolute top-20 right-6 md:top-24 md:right-12 z-40 cursor-pointer w-24 h-24 md:w-36 md:h-36"
         initial={{ y: -50, opacity: 0 }}
-        animate={{ 
+        animate={prefersReducedMotion ? { opacity: 0.8 } : { 
           y: [-10, 10, -10], 
           opacity: 0.8 
         }}
-        transition={{ 
+        transition={prefersReducedMotion ? { duration: 1 } : { 
           y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
           opacity: { duration: 1, delay: 0.5 } 
         }}
@@ -65,20 +67,22 @@ export default function HeroSection({ logos = [] }: Props) {
 
       {/* The Cinema Screen positioned to fit the blank wall */}
       <div 
-        className="absolute z-10 -translate-y-1/2 xl:top-[23%] xl:translate-y-0 inset-x-0 mx-auto w-full sm:w-[95%] xl:w-[60%] xl:aspect-[21/10] aspect-video flex flex-col items-center justify-center rounded-sm overflow-hidden shadow-[0_0_80px_rgba(255,238,52,0.2)] ring-1 ring-white/10 bg-black/80 transition-all duration-700"
-        style={{ perspective: "1000px", top: 'calc(20% + 20px)' }}
+        className="absolute z-10 top-[33%] sm:top-[calc(20%+20px)] -translate-y-1/2 xl:top-[23%] xl:translate-y-0 inset-x-0 mx-auto w-full sm:w-[95%] xl:w-[60%] xl:aspect-[21/10] aspect-video flex flex-col items-center justify-center rounded-sm overflow-hidden shadow-[0_0_80px_rgba(255,238,52,0.2)] ring-1 ring-white/10 bg-black/80 transition-all duration-700"
+        style={{ perspective: "1000px" }}
       >
         
         {/* Background YouTube Video */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none rounded-sm opacity-80 mix-blend-screen bg-black/60">
-          <iframe
-            className="absolute top-1/2 left-1/2 w-[300%] h-[300%] sm:w-[200%] sm:h-[200%] xl:w-[150%] xl:h-[150%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-            src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=YOUR_YOUTUBE_VIDEO_ID&showinfo=0&rel=0&modestbranding=1"
-            title="YouTube background video"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          />
-        </div>
+        {HERO_VIDEO_ID && (
+          <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none rounded-sm opacity-80 mix-blend-screen bg-black/60">
+            <iframe
+              className="absolute top-1/2 left-1/2 w-[300%] h-[300%] sm:w-[200%] sm:h-[200%] xl:w-[150%] xl:h-[150%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+              src={`https://www.youtube.com/embed/${HERO_VIDEO_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${HERO_VIDEO_ID}&showinfo=0&rel=0&modestbranding=1`}
+              title="YouTube background video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          </div>
+        )}
         
         {/* Screen Text Overlay */}
         <div className="group absolute inset-0 flex flex-col items-center justify-center overflow-hidden p-4 md:p-8 text-center bg-gradient-to-t from-black/80 via-black/40 to-black/80 hover:from-transparent hover:via-transparent hover:to-transparent z-20 transition-all duration-700 cursor-pointer">
@@ -96,7 +100,7 @@ export default function HeroSection({ logos = [] }: Props) {
                   type: "spring",
                   bounce: 0.4
                 }}
-                className={`text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold uppercase tracking-widest font-[fantasy] whitespace-nowrap drop-shadow-[0_0_20px_rgba(255,238,52,0.8)]
+                className={`text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold uppercase tracking-widest font-display whitespace-nowrap drop-shadow-[0_0_20px_rgba(255,238,52,0.8)]
                   ${char.trim() === '' ? 'w-4 sm:w-8' : 'text-transparent bg-clip-text bg-gradient-to-b from-yellow to-yellow/60'}`}
               >
                 {char}
@@ -141,7 +145,7 @@ export default function HeroSection({ logos = [] }: Props) {
                     y: "110%",
                     opacity: 0
                   }}
-                  animate={{
+                  animate={prefersReducedMotion ? { opacity: 0 } : {
                     y: "-20%",
                     opacity: [0, 1, 0],
                     scale: [1, 1.5, 1]
@@ -170,11 +174,13 @@ export default function HeroSection({ logos = [] }: Props) {
       </div>
 
       {/* Astronaut Cutout Layer for 3D Depth (Must perfectly match the background sizing/transform) */}
-      <div className="absolute inset-0 z-20 transform xl:translate-y-0 -translate-y-[12%] scale-150 sm:scale-125 xl:scale-100 transition-transform duration-1000 pointer-events-none">
+      <div className="absolute inset-0 z-20 transform -translate-y-[20%] sm:-translate-y-[12%] xl:translate-y-0 scale-110 sm:scale-125 xl:scale-100 transition-transform duration-1000 pointer-events-none">
           <Image 
             src="/astronaut-cutout.png" 
             alt="Astronaut cutout" 
             fill
+            priority
+            sizes="100vw"
             className="object-cover object-center"
           />
       </div>
@@ -272,14 +278,20 @@ export default function HeroSection({ logos = [] }: Props) {
             </button>
             
             <div className="w-full max-w-6xl aspect-video bg-black rounded-lg overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] relative">
-              <iframe 
-                src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID?autoplay=1"
-                className="absolute inset-0 w-full h-full"
-                title="YouTube Video Modal"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+              {HERO_VIDEO_ID ? (
+                <iframe 
+                  src={`https://www.youtube.com/embed/${HERO_VIDEO_ID}?autoplay=1`}
+                  className="absolute inset-0 w-full h-full"
+                  title="YouTube Video Modal"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest uppercase">
+                  Video not configured
+                </div>
+              )}
             </div>
           </motion.div>
         )}

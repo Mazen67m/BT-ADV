@@ -27,7 +27,7 @@ export default function ReviewCard({ review, hideClient = false }: Props) {
 
       {/* Content */}
       <div className="flex-1 flex flex-col justify-center mb-8 relative z-10">
-        <p className="text-white md:text-lg lg:text-xl font-bold leading-relaxed text-right arabic-font drop-shadow-md">
+        <p className="text-white text-base md:text-lg lg:text-xl font-bold leading-relaxed text-right arabic-font drop-shadow-md" dir="rtl">
           {review.content_ar}
         </p>
         {hasEn && (
@@ -40,7 +40,7 @@ export default function ReviewCard({ review, hideClient = false }: Props) {
       {/* Attribution */}
       <div className="flex items-center justify-between border-t border-white/10 pt-5 mt-auto relative z-10 gap-4">
         <div className="flex flex-col flex-1 shrink min-w-0">
-          <span className="text-white font-bold text-sm uppercase tracking-widest truncate">{review.reviewer_name}</span>
+          <span className="text-white font-bold text-base md:text-sm uppercase tracking-widest truncate">{review.reviewer_name}</span>
           {review.reviewer_role && (
             <span className="text-yellow text-xs mt-1 font-medium truncate">{review.reviewer_role}</span>
           )}
@@ -49,7 +49,7 @@ export default function ReviewCard({ review, hideClient = false }: Props) {
         {/* Client Tag */}
         {!hideClient && review.clients && (
           <div className="flex items-center gap-2.5 bg-[#00203c]/50 px-3 py-1.5 rounded-lg border border-[#14304A] shrink-0 hover:border-yellow/30 transition-colors shadow-inner">
-            <span className="text-white/90 text-xs font-bold tracking-wider uppercase text-right leading-tight max-w-[90px] truncate">
+            <span className="text-white/90 text-xs font-bold tracking-wider uppercase text-right leading-tight max-w-[120px] truncate">
               {review.clients.name}
             </span>
             {review.clients.logo_url && (
@@ -60,7 +60,6 @@ export default function ReviewCard({ review, hideClient = false }: Props) {
                   fill 
                   sizes="28px"
                   className="object-contain drop-shadow-md"
-                  unoptimized
                 />
               </div>
             )}

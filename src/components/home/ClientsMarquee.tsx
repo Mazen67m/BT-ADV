@@ -22,13 +22,13 @@ export default function ClientsMarquee({ logos = [] }: Props) {
   const marqueeItems = [...logos, ...logos];
 
   return (
-    <section className="relative w-full bg-[#09090f] py-16 overflow-hidden">
+    <section className="relative w-full bg-[#09090f] py-8 md:py-16 overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent" />
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent" />
 
       <div className="text-center mb-10 px-4">
         <p className="text-yellow/60 text-xs uppercase tracking-[0.4em] font-semibold mb-2">Trusted By</p>
-        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide uppercase font-[fantasy]">Our Clients</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide uppercase font-display">Our Clients</h2>
         <div className="mx-auto mt-3 w-16 h-0.5 bg-gradient-to-r from-yellow/0 via-yellow to-yellow/0 rounded-full" />
       </div>
 
@@ -50,7 +50,6 @@ export default function ClientsMarquee({ logos = [] }: Props) {
                     fill
                     className="object-contain transition-transform duration-400 group-hover:scale-125 md:scale-110"
                     sizes="(max-width: 768px) 224px, 288px"
-                    unoptimized
                   />
                 )}
                 {logo.youtube_url && (
