@@ -267,7 +267,7 @@ export async function POST(req: Request) {
                 ${detailRow('Email', email)}
                 ${detailRow('Budget', budget)}
                 ${detailRow('Type', type.replace('onsite','On-Site').replace('phone','Phone Call').toUpperCase())}
-                ${detailRow('Date', date)}
+                ${detailRow('Date', date || 'TBA')}
                 ${detailRow('Time', time_slot)}
                 ${detailRow('Ref Code', ref_code)}
               </table>
