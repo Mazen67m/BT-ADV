@@ -12,21 +12,13 @@ export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  // Guard: if env vars are missing at build time, return empty array.
-  // Pages will still be rendered on-demand at runtime via dynamicParams = true.
-  if (!url || !key) {
-    console.warn('[generateStaticParams] Supabase env vars missing — skipping static generation for /clients/[slug]');
-    return [];
-  }
-
   try {
-    const supabase = createClient(url, key);
-    const { data } = await supabase.from('clients').select('slug');
-    return (data || []).map((client) => ({ slug: client.slug }));
+    // getClients() is already imported above — uses the singleton anon client
+    // and is covered by unstable_cache, so this is safe and efficient at build time.
+    const clients = await getClients();
+    return clients.map((client) => ({ slug: client.slug }));
   } catch (err) {
+    // If Supabase is unreachable at build time, fall back to on-demand rendering.
     console.warn('[generateStaticParams] Failed to fetch client slugs:', err);
     return [];
   }
