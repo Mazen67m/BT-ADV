@@ -31,6 +31,7 @@ export async function updateSiteSetting(key: string, value: string): Promise<Mut
 
   revalidatePath('/admin/settings');
   revalidatePath('/');
+  revalidateTag('site-settings');
   return { data: null, error: null };
 }
 
@@ -57,5 +58,6 @@ export async function updateSiteSettings(settings: Record<string, string>): Prom
 
   revalidatePath('/admin/settings');
   revalidatePath('/');
+  revalidateTag('site-settings');
   return { data: null, error: null };
 }

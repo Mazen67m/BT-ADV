@@ -49,7 +49,7 @@ export async function insertPricing(payload: PricingInsert): Promise<MutationRes
 
   revalidatePath('/admin/pricing');
   revalidatePath('/pricing');
-  revalidateTag('pricing', 'default');
+  revalidateTag('pricing');
   return { data: data as Pricing, error: null };
 }
 
@@ -73,7 +73,7 @@ export async function updatePricing({ id, ...payload }: PricingUpdate): Promise<
 
   revalidatePath('/admin/pricing');
   revalidatePath('/pricing');
-  revalidateTag('pricing', 'default');
+  revalidateTag('pricing');
   return { data: data as Pricing, error: null };
 }
 
@@ -88,6 +88,6 @@ export async function deletePricing(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/pricing');
   revalidatePath('/pricing');
-  revalidateTag('pricing', 'default');
+  revalidateTag('pricing');
   return { data: null, error: null };
 }

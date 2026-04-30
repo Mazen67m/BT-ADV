@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { BtsItemInsertSchema, BtsItemUpdateSchema } from '@/lib/validations';
 import type { BtsItem } from '@/lib/supabase/types';
 
@@ -46,6 +46,7 @@ export async function insertBtsItem(payload: BtsItemInsert): Promise<MutationRes
 
   revalidatePath('/admin/bts');
   revalidatePath('/bts');
+  revalidateTag('bts');
   return { data: data as BtsItem, error: null };
 }
 
@@ -69,6 +70,7 @@ export async function updateBtsItem({ id, ...payload }: BtsItemUpdate): Promise<
 
   revalidatePath('/admin/bts');
   revalidatePath('/bts');
+  revalidateTag('bts');
   return { data: data as BtsItem, error: null };
 }
 
@@ -83,5 +85,6 @@ export async function deleteBtsItem(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/bts');
   revalidatePath('/bts');
+  revalidateTag('bts');
   return { data: null, error: null };
 }

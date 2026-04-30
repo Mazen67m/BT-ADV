@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { ClientInsertSchema, ClientUpdateSchema } from '@/lib/validations';
 import type { Client } from '@/lib/supabase/types';
 
@@ -48,6 +48,7 @@ export async function insertClient(payload: ClientInsert): Promise<MutationResul
 
   revalidatePath('/admin/clients');
   revalidatePath('/clients');
+  revalidateTag('clients');
   return { data: data as Client, error: null };
 }
 
@@ -71,6 +72,7 @@ export async function updateClient({ id, ...payload }: ClientUpdate): Promise<Mu
 
   revalidatePath('/admin/clients');
   revalidatePath('/clients');
+  revalidateTag('clients');
   return { data: data as Client, error: null };
 }
 
@@ -85,5 +87,6 @@ export async function deleteClient(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/clients');
   revalidatePath('/clients');
+  revalidateTag('clients');
   return { data: null, error: null };
 }

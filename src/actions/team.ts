@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { TeamMemberInsertSchema, TeamMemberUpdateSchema } from '@/lib/validations';
 import type { TeamMember } from '@/lib/supabase/types';
 
@@ -48,6 +48,8 @@ export async function insertTeamMember(payload: TeamMemberInsert): Promise<Mutat
 
   revalidatePath('/admin/team');
   revalidatePath('/about');
+  revalidatePath('/teamwork');
+  revalidateTag('team');
   return { data: data as TeamMember, error: null };
 }
 
@@ -71,6 +73,8 @@ export async function updateTeamMember({ id, ...payload }: TeamMemberUpdate): Pr
 
   revalidatePath('/admin/team');
   revalidatePath('/about');
+  revalidatePath('/teamwork');
+  revalidateTag('team');
   return { data: data as TeamMember, error: null };
 }
 
@@ -85,5 +89,7 @@ export async function deleteTeamMember(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/team');
   revalidatePath('/about');
+  revalidatePath('/teamwork');
+  revalidateTag('team');
   return { data: null, error: null };
 }

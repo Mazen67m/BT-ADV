@@ -39,7 +39,7 @@ export async function updateBookingStatus(
 
   revalidatePath('/admin/bookings');
   revalidatePath('/admin');
-  revalidateTag('booked-slots', 'default');
+  revalidateTag('booked-slots');
   return { data: data as Booking, error: null };
 }
 
@@ -57,6 +57,6 @@ export async function deleteBooking(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/bookings');
   revalidatePath('/admin');
-  revalidateTag('booked-slots', 'default');
+  revalidateTag('booked-slots');
   return { data: null, error: null };
 }

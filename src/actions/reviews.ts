@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { ReviewInsertSchema, ReviewUpdateSchema } from '@/lib/validations';
 import type { Review } from '@/lib/supabase/types';
 
@@ -49,6 +49,7 @@ export async function insertReview(payload: ReviewInsert): Promise<MutationResul
 
   revalidatePath('/admin/reviews');
   revalidatePath('/');
+  revalidateTag('reviews');
   return { data: data as Review, error: null };
 }
 
@@ -72,6 +73,7 @@ export async function updateReview({ id, ...payload }: ReviewUpdate): Promise<Mu
 
   revalidatePath('/admin/reviews');
   revalidatePath('/');
+  revalidateTag('reviews');
   return { data: data as Review, error: null };
 }
 
@@ -86,5 +88,6 @@ export async function deleteReview(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/reviews');
   revalidatePath('/');
+  revalidateTag('reviews');
   return { data: null, error: null };
 }

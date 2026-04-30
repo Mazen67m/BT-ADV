@@ -7,7 +7,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { CareerInsertSchema, CareerUpdateSchema } from '@/lib/validations';
 import type { Career } from '@/lib/supabase/types';
 
@@ -48,6 +48,7 @@ export async function insertCareer(payload: CareerInsert): Promise<MutationResul
 
   revalidatePath('/admin/careers');
   revalidatePath('/careers');
+  revalidateTag('careers');
   return { data: data as Career, error: null };
 }
 
@@ -71,6 +72,7 @@ export async function updateCareer({ id, ...payload }: CareerUpdate): Promise<Mu
 
   revalidatePath('/admin/careers');
   revalidatePath('/careers');
+  revalidateTag('careers');
   return { data: data as Career, error: null };
 }
 
@@ -85,5 +87,6 @@ export async function deleteCareer(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/careers');
   revalidatePath('/careers');
+  revalidateTag('careers');
   return { data: null, error: null };
 }
