@@ -47,7 +47,7 @@ export async function insertService(payload: ServiceInsert): Promise<MutationRes
 
   revalidatePath('/admin/services');
   revalidatePath('/');
-  revalidateTag('services');
+  revalidateTag('services', 'default');
   return { data: data as Service, error: null };
 }
 
@@ -71,7 +71,7 @@ export async function updateService({ id, ...payload }: ServiceUpdate): Promise<
 
   revalidatePath('/admin/services');
   revalidatePath('/');
-  revalidateTag('services');
+  revalidateTag('services', 'default');
   return { data: data as Service, error: null };
 }
 
@@ -86,6 +86,6 @@ export async function deleteService(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/services');
   revalidatePath('/');
-  revalidateTag('services');
+  revalidateTag('services', 'default');
   return { data: null, error: null };
 }

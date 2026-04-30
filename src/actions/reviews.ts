@@ -49,7 +49,7 @@ export async function insertReview(payload: ReviewInsert): Promise<MutationResul
 
   revalidatePath('/admin/reviews');
   revalidatePath('/');
-  revalidateTag('reviews');
+  revalidateTag('reviews', 'default');
   return { data: data as Review, error: null };
 }
 
@@ -73,7 +73,7 @@ export async function updateReview({ id, ...payload }: ReviewUpdate): Promise<Mu
 
   revalidatePath('/admin/reviews');
   revalidatePath('/');
-  revalidateTag('reviews');
+  revalidateTag('reviews', 'default');
   return { data: data as Review, error: null };
 }
 
@@ -88,6 +88,6 @@ export async function deleteReview(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/reviews');
   revalidatePath('/');
-  revalidateTag('reviews');
+  revalidateTag('reviews', 'default');
   return { data: null, error: null };
 }

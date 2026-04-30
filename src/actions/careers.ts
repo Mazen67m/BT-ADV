@@ -48,7 +48,7 @@ export async function insertCareer(payload: CareerInsert): Promise<MutationResul
 
   revalidatePath('/admin/careers');
   revalidatePath('/careers');
-  revalidateTag('careers');
+  revalidateTag('careers', 'default');
   return { data: data as Career, error: null };
 }
 
@@ -72,7 +72,7 @@ export async function updateCareer({ id, ...payload }: CareerUpdate): Promise<Mu
 
   revalidatePath('/admin/careers');
   revalidatePath('/careers');
-  revalidateTag('careers');
+  revalidateTag('careers', 'default');
   return { data: data as Career, error: null };
 }
 
@@ -87,6 +87,6 @@ export async function deleteCareer(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/careers');
   revalidatePath('/careers');
-  revalidateTag('careers');
+  revalidateTag('careers', 'default');
   return { data: null, error: null };
 }

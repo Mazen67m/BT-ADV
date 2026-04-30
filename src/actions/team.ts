@@ -49,7 +49,7 @@ export async function insertTeamMember(payload: TeamMemberInsert): Promise<Mutat
   revalidatePath('/admin/team');
   revalidatePath('/about');
   revalidatePath('/teamwork');
-  revalidateTag('team');
+  revalidateTag('team', 'default');
   return { data: data as TeamMember, error: null };
 }
 
@@ -74,7 +74,7 @@ export async function updateTeamMember({ id, ...payload }: TeamMemberUpdate): Pr
   revalidatePath('/admin/team');
   revalidatePath('/about');
   revalidatePath('/teamwork');
-  revalidateTag('team');
+  revalidateTag('team', 'default');
   return { data: data as TeamMember, error: null };
 }
 
@@ -90,6 +90,6 @@ export async function deleteTeamMember(id: string): Promise<MutationResult> {
   revalidatePath('/admin/team');
   revalidatePath('/about');
   revalidatePath('/teamwork');
-  revalidateTag('team');
+  revalidateTag('team', 'default');
   return { data: null, error: null };
 }

@@ -48,7 +48,7 @@ export async function insertClient(payload: ClientInsert): Promise<MutationResul
 
   revalidatePath('/admin/clients');
   revalidatePath('/clients');
-  revalidateTag('clients');
+  revalidateTag('clients', 'default');
   return { data: data as Client, error: null };
 }
 
@@ -72,7 +72,7 @@ export async function updateClient({ id, ...payload }: ClientUpdate): Promise<Mu
 
   revalidatePath('/admin/clients');
   revalidatePath('/clients');
-  revalidateTag('clients');
+  revalidateTag('clients', 'default');
   return { data: data as Client, error: null };
 }
 
@@ -87,6 +87,6 @@ export async function deleteClient(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/clients');
   revalidatePath('/clients');
-  revalidateTag('clients');
+  revalidateTag('clients', 'default');
   return { data: null, error: null };
 }

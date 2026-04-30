@@ -46,7 +46,7 @@ export async function insertBtsItem(payload: BtsItemInsert): Promise<MutationRes
 
   revalidatePath('/admin/bts');
   revalidatePath('/bts');
-  revalidateTag('bts');
+  revalidateTag('bts', 'default');
   return { data: data as BtsItem, error: null };
 }
 
@@ -70,7 +70,7 @@ export async function updateBtsItem({ id, ...payload }: BtsItemUpdate): Promise<
 
   revalidatePath('/admin/bts');
   revalidatePath('/bts');
-  revalidateTag('bts');
+  revalidateTag('bts', 'default');
   return { data: data as BtsItem, error: null };
 }
 
@@ -85,6 +85,6 @@ export async function deleteBtsItem(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/bts');
   revalidatePath('/bts');
-  revalidateTag('bts');
+  revalidateTag('bts', 'default');
   return { data: null, error: null };
 }

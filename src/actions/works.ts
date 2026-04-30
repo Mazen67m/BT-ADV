@@ -54,7 +54,7 @@ export async function insertWork(payload: WorkInsert): Promise<MutationResult<Wo
 
   revalidatePath('/admin/works');
   revalidatePath('/works');
-  revalidateTag('works');
+  revalidateTag('works', 'default');
   return { data: data as Work, error: null };
 }
 
@@ -81,7 +81,7 @@ export async function updateWork({ id, ...payload }: WorkUpdate): Promise<Mutati
 
   revalidatePath('/admin/works');
   revalidatePath('/works');
-  revalidateTag('works');
+  revalidateTag('works', 'default');
   return { data: data as Work, error: null };
 }
 
@@ -96,6 +96,6 @@ export async function deleteWork(id: string): Promise<MutationResult> {
 
   revalidatePath('/admin/works');
   revalidatePath('/works');
-  revalidateTag('works');
+  revalidateTag('works', 'default');
   return { data: null, error: null };
 }
