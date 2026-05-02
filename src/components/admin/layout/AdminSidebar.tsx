@@ -158,7 +158,7 @@ export function AdminSidebar() {
         <div className="h-[64px] flex items-center justify-between px-4 border-b border-white/[0.06] flex-shrink-0">
           <div className="flex items-center gap-3 overflow-hidden">
             <div className={`relative flex-shrink-0 transition-all duration-300 ${!showLabels ? "w-8 h-8" : "w-10 h-10"}`}>
-              <Image src="/logo.png" alt="BT-ADV" fill quality={100} className="object-contain" />
+              <Image src="/logo.png" alt="BT-ADV" fill sizes="40px" quality={100} className="object-contain" />
             </div>
             <span className={`text-white font-bold text-[15px] tracking-wide whitespace-nowrap transition-all duration-300 ${!showLabels ? "opacity-0 w-0 overflow-hidden" : "opacity-100 w-auto"}`}>
               BT-ADV

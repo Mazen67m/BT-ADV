@@ -91,3 +91,51 @@ export async function deletePricing(id: string): Promise<MutationResult> {
   revalidateTag('pricing', 'default');
   return { data: null, error: null };
 }
+
+/**
+ * Rename an entire pricing category: bulk-updates the `category` field
+ * on every row that currently belongs to `oldName`.
+ */
+export async function renamePricingCategory(
+  oldName: string,
+  newName: string,
+): Promise<MutationResult> {
+  const trimmed = newName.trim();
+  if (!trimmed) return { data: null, error: 'Category name cannot be empty' };
+  if (trimmed === oldName) return { data: null, error: null };
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('pricing')
+    .update({ category: trimmed })
+    .eq('category', oldName);
+
+  if (error) {
+    console.error('[SA renamePricingCategory]', error.message);
+    return { data: null, error: error.message };
+  }
+
+  revalidatePath('/admin/pricing');
+  revalidatePath('/pricing');
+  revalidateTag('pricing', 'default');
+  return { data: null, error: null };
+}
+
+/**
+ * Delete an entire pricing category: removes every pricing row
+ * whose `category` matches the given name.
+ */
+export async function deletePricingCategory(category: string): Promise<MutationResult> {
+  const supabase = await createClient();
+  const { error } = await supabase.from('pricing').delete().eq('category', category);
+
+  if (error) {
+    console.error('[SA deletePricingCategory]', error.message);
+    return { data: null, error: error.message };
+  }
+
+  revalidatePath('/admin/pricing');
+  revalidatePath('/pricing');
+  revalidateTag('pricing', 'default');
+  return { data: null, error: null };
+}
