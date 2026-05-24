@@ -71,7 +71,7 @@ export default function Navbar() {
               alt="BT-ADV"
               width={250}
               height={100}
-              quality={100}
+              quality={90}
               className="object-contain h-10 w-auto md:h-14 lg:h-20"
             />
             <span className="text-base md:text-lg lg:text-2xl font-bold tracking-widest text-white uppercase">

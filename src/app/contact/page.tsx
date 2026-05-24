@@ -79,7 +79,9 @@ export default function ContactPage() {
                 <Phone className="text-yellow shrink-0 mt-1" size={24} />
                 <div className="flex flex-col gap-1">
                   <span className="font-bold text-white uppercase tracking-wider text-sm">Direct Line</span>
-                  <span>+20 10 0000 0000</span>
+                  <a href="tel:01067804027" className="text-white hover:text-yellow transition-colors">
+                    01067804027
+                  </a>
                   <span className="text-xs opacity-60">Mon-Fri 9am - 6pm EET</span>
                 </div>
               </div>
@@ -87,7 +89,9 @@ export default function ContactPage() {
                 <Mail className="text-yellow shrink-0 mt-1" size={24} />
                 <div className="flex flex-col gap-1">
                   <span className="font-bold text-white uppercase tracking-wider text-sm">Email Us</span>
-                  <span>info@btadv.agency</span>
+                  <a href="mailto:support@advagency.com" className="text-white hover:text-yellow transition-colors">
+                    support@advagency.com
+                  </a>
                 </div>
               </div>
             </div>
@@ -146,7 +150,7 @@ export default function ContactPage() {
                   type="tel"
                   value={form.phone}
                   onChange={handleChange}
-                  placeholder="+20 10 0000 0000"
+                  placeholder="01067804027"
                   className="w-full bg-navy-light/30 border border-white/20 p-4 pl-12 rounded focus:border-yellow focus:ring-1 focus:ring-yellow outline-none transition-colors text-white placeholder-white/30"
                 />
               </div>

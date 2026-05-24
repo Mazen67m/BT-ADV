@@ -146,93 +146,9 @@ export default function AboutPageClient({ heroImage }: Props) {
 
       {/* ── CONTENT SECTIONS ─────────────────────────────────────────── */}
       <SectionWrapper className="pt-24 pb-0 z-10 relative">
-        <div className="w-full max-w-5xl mx-auto flex flex-col gap-24">
-
-          {/* Row 1: Who We Are + Image */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7 }}
-              className="group relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] hover:border-yellow/30 rounded-2xl p-8 md:p-10 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-[0_0_40px_rgba(255,238,52,0.08)] transition-all duration-600"
-            >
-              {/* Yellow accent top-left corner line */}
-              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent" />
-              <div className="flex items-center gap-3 mb-6">
-                <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-yellow/10 text-yellow border border-yellow/20">
-                  {contentBlocks[0].icon}
-                </span>
-                <h2 className="text-2xl md:text-3xl text-white font-bold uppercase tracking-widest">
-                  {contentBlocks[0].title}
-                </h2>
-              </div>
-              <div className="w-12 h-0.5 bg-yellow/40 mb-6 rounded-full" />
-              <p className="leading-relaxed text-white/60 text-base md:text-lg">
-                {contentBlocks[0].text}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="relative w-full aspect-video rounded-2xl overflow-hidden group shadow-[0_20px_60px_rgba(0,0,0,0.7)] border border-white/[0.07]"
-            >
-              <Image src="/img.png" alt="Who We Are — BT ADV team" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-yellow/40 transition-colors duration-500 rounded-2xl" />
-              {/* Label */}
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5">
-                <p className="text-white/70 text-xs uppercase tracking-widest">Behind the Lens</p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Row 2: Image + What We Do */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="relative w-full aspect-video rounded-2xl overflow-hidden group shadow-[0_20px_60px_rgba(0,0,0,0.7)] border border-white/[0.07] order-2 md:order-1"
-            >
-              <Image src="/img.png" alt="What We Do — BT ADV production" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-yellow/40 transition-colors duration-500 rounded-2xl" />
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5">
-                <p className="text-white/70 text-xs uppercase tracking-widest">On Production</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7 }}
-              className="group relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] hover:border-yellow/30 rounded-2xl p-8 md:p-10 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-[0_0_40px_rgba(255,238,52,0.08)] transition-all duration-600 order-1 md:order-2"
-            >
-              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent" />
-              <div className="flex items-center gap-3 mb-6">
-                <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-yellow/10 text-yellow border border-yellow/20">
-                  {contentBlocks[1].icon}
-                </span>
-                <h2 className="text-2xl md:text-3xl text-white font-bold uppercase tracking-widest">
-                  {contentBlocks[1].title}
-                </h2>
-              </div>
-              <div className="w-12 h-0.5 bg-yellow/40 mb-6 rounded-full" />
-              <p className="leading-relaxed text-white/60 text-base md:text-lg">
-                {contentBlocks[1].text}
-              </p>
-            </motion.div>
-          </div>
-
-          {/* Row 3: Why Choose Us + Our Philosophy */}
+        <div className="w-full max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
-            {[contentBlocks[2], contentBlocks[3]].map((block, i) => (
+            {contentBlocks.map((block, i) => (
               <motion.div
                 key={block.title}
                 initial={{ opacity: 0, y: 40 }}
@@ -241,6 +157,7 @@ export default function AboutPageClient({ heroImage }: Props) {
                 transition={{ duration: 0.7, delay: i * 0.15 }}
                 className="group relative bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] hover:border-yellow/30 rounded-2xl p-8 md:p-10 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-[0_0_40px_rgba(255,238,52,0.08)] transition-all duration-600"
               >
+                {/* Yellow accent top-left corner line */}
                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-yellow/40 to-transparent" />
                 <div className="flex items-center gap-3 mb-6">
                   <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-yellow/10 text-yellow border border-yellow/20">
@@ -257,7 +174,6 @@ export default function AboutPageClient({ heroImage }: Props) {
               </motion.div>
             ))}
           </div>
-
         </div>
       </SectionWrapper>
 

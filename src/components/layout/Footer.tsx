@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
@@ -19,32 +19,56 @@ export default function Footer() {
               alt="BT-ADV" 
               width={250} 
               height={100} 
-              quality={100}
+              quality={90}
               className="object-contain h-16 md:h-20 w-auto"
             />
             <span className="text-2xl md:text-3xl font-bold tracking-widest text-white uppercase">
-              Band<span className="text-yellow">-</span>Trend
+              BT<span className="text-yellow">-adv</span>agency
             </span>
           </Link>
           <p className="text-white/60 text-base md:text-sm max-w-sm">
             {t("footer.description")}
           </p>
-          <div className="flex gap-4 mt-2">
+          <div className="flex gap-6 mt-2">
             <a 
               href="https://www.instagram.com/bt.advertising.agency" 
               target="_blank" 
-              rel="noreferrer" 
-              className="text-white hover:text-yellow transition-colors font-bold text-base md:text-sm tracking-widest uppercase flex items-center gap-1 p-2 -ml-2"
+              rel="noopener noreferrer"
+              className="text-white hover:text-yellow transition-colors flex items-center justify-center p-2 -ml-2"
+              aria-label="Instagram"
             >
-              IG
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-5 h-5"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
             </a>
             <a 
               href="https://www.facebook.com/share/18UHCvKB16/" 
               target="_blank" 
-              rel="noreferrer" 
-              className="text-white hover:text-yellow transition-colors font-bold text-base md:text-sm tracking-widest uppercase flex items-center gap-1 p-2"
+              rel="noopener noreferrer"
+              className="text-white hover:text-yellow transition-colors flex items-center justify-center p-2"
+              aria-label="Facebook"
             >
-              FB
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-5 h-5"
+              >
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
             </a>
           </div>
         </div>
@@ -63,18 +87,65 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Contact info placeholder */}
+        {/* Contact info */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold uppercase tracking-wider mb-2">{t("footer.connect")}</h4>
           <ul className="flex flex-col gap-3 text-base md:text-sm text-white/70">
             <li className="flex items-center gap-3">
-              <MapPin size={16} className="text-yellow" /> Cairo, Egypt (HQ)
+              <Phone size={16} className="text-yellow" />
+              <a href="tel:01067804027" className="hover:text-yellow transition-colors">
+                01067804027
+              </a>
             </li>
             <li className="flex items-center gap-3">
-              <Phone size={16} className="text-yellow" /> +20 10 0000 0000
+              <Mail size={16} className="text-yellow" />
+              <a href="mailto:support@advagency.com" className="hover:text-yellow transition-colors">
+                support@advagency.com
+              </a>
             </li>
             <li className="flex items-center gap-3">
-              <Mail size={16} className="text-yellow" /> hello@btadv.agency
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4 text-yellow"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <a
+                href="https://www.instagram.com/bt.advertising.agency"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-yellow transition-colors"
+              >
+                Instagram
+              </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4 text-yellow"
+              >
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+              <a
+                href="https://www.facebook.com/share/18UHCvKB16/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-yellow transition-colors"
+              >
+                Facebook
+              </a>
             </li>
           </ul>
         </div>

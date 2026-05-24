@@ -319,7 +319,7 @@ export async function POST(req: Request) {
 
     // ── 2. Send emails via Resend ─────────────────────────────────────────────
     const RESEND_KEY  = process.env.RESEND_API_KEY;
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'hello@btadv.agency';
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'support@advagency.com';
     const FROM_EMAIL  = process.env.FROM_EMAIL  ?? 'onboarding@resend.dev';
     const isTesting   = FROM_EMAIL === 'onboarding@resend.dev';
     const budget      = estimated_budget ?? 'N/A';

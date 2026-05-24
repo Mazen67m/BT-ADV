@@ -35,8 +35,8 @@ const SECURITY_HEADERS = [
       // 'unsafe-eval' is required by React (Turbopack / error overlays) in dev.
       // It is intentionally omitted from production builds.
       isDev
-        ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-        : "script-src 'self' 'unsafe-inline'",
+        ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com"
+        : "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://res.cloudinary.com https://*.supabase.co https://*.supabase.in https://img.youtube.com",
