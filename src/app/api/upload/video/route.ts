@@ -23,7 +23,7 @@ import { rateLimit, getClientIp } from '@/lib/rateLimit';
 import { verifyCsrfToken } from '@/lib/csrf';
 import { requireAdmin } from '@/lib/supabase/admin-auth';
 
-const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB
 
 const ALLOWED_TYPES = [
   'video/mp4',

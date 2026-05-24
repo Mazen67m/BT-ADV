@@ -96,7 +96,7 @@ const ALLOWED_VIDEO_TYPES = new Set([
 ]);
 
 const MAX_IMAGE_BYTES = 15 * 1024 * 1024;   // 15 MB (Sharp will compress down)
-const MAX_VIDEO_BYTES = 100 * 1024 * 1024;  // 100 MB
+const MAX_VIDEO_BYTES = 15 * 1024 * 1024;   // 15 MB
 
 const ACCEPT_ATTR: Record<MediaAccept, string> = {
   image: 'image/jpeg,image/jpg,image/png,image/webp,image/avif,image/heic,image/heif,image/bmp,image/tiff',
@@ -106,9 +106,25 @@ const ACCEPT_ATTR: Record<MediaAccept, string> = {
 
 const HINT_TEXT: Record<MediaAccept, string> = {
   image: 'JPEG · PNG · WebP · AVIF · HEIC · max 15 MB',
-  video: 'MP4 · WebM · MOV · max 100 MB',
-  both:  'Images up to 15 MB · Videos up to 100 MB',
+  video: 'MP4 · WebM · MOV · max 15 MB',
+  both:  'Images up to 15 MB · Videos up to 15 MB',
 };
+
+function getStatusErrorText(status: number): string {
+  switch (status) {
+    case 400: return 'Bad Request (invalid request parameters)';
+    case 401: return 'Unauthorized (please log in again)';
+    case 403: return 'Forbidden (session expired or invalid CSRF token)';
+    case 404: return 'Not Found (the upload endpoint was not found)';
+    case 413: return 'Payload Too Large (file size limit exceeded - max 15 MB)';
+    case 429: return 'Too Many Requests (rate limit reached, please try again later)';
+    case 500: return 'Internal Server Error (something went wrong on the server)';
+    case 502: return 'Bad Gateway (server is temporarily unavailable)';
+    case 503: return 'Service Unavailable (server is down or overloading)';
+    case 504: return 'Gateway Timeout (upload took too long and timed out)';
+    default: return `Server error (status code ${status})`;
+  }
+}
 
 /* ─── Validator ──────────────────────────────────────────────────────────────*/
 
@@ -213,6 +229,96 @@ export default function MediaUploader({
     setUploading(true);
     setProgress(10);
 
+    // Direct client-side upload for videos to bypass Vercel/proxy 4.5MB/10MB limits
+    if (uploadMode === 'video') {
+      try {
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = createClient();
+
+        // 1. Calculate SHA-256 hash using native Web Crypto API
+        const buffer = await file.arrayBuffer();
+        const hashBuffer = await window.crypto.subtle.digest('SHA-256', buffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 8);
+
+        setProgress(30);
+
+        // 2. Dedup check in media_assets
+        const { data: existing, error: selectError } = await supabase
+          .from('media_assets')
+          .select('id, provider_id')
+          .eq('provider', 'supabase')
+          .eq('content_hash', hashHex)
+          .maybeSingle();
+
+        if (selectError) throw selectError;
+
+        const cleanSlug = (slug || file.name.replace(/\.[^.]+$/, ''))
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '');
+
+        const path = `bts/videos/${cleanSlug}-${hashHex}.mp4`;
+        const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/${path}`;
+
+        if (existing) {
+          setPreviewUrl(publicUrl);
+          setProgress(100);
+          onUpload(publicUrl);
+          toast.success('File already exists. Used existing entry!');
+          setTimeout(() => setProgress(0), 600);
+          return;
+        }
+
+        setProgress(50);
+
+        // 3. Upload to storage bucket directly
+        const { error: uploadError } = await supabase.storage
+          .from('media')
+          .upload(path, file, {
+            contentType: file.type,
+            cacheControl: '31536000',
+            upsert: true,
+          });
+
+        if (uploadError) throw uploadError;
+        setProgress(85);
+
+        // 4. Insert media_asset registry record
+        const { error: insertError } = await supabase
+          .from('media_assets')
+          .insert({
+            provider: 'supabase',
+            provider_id: path,
+            path,
+            asset_type: 'bts_video',
+            file_size: file.size,
+            content_hash: hashHex,
+            alt_text: '',
+          })
+          .select('id')
+          .single();
+
+        if (insertError) throw insertError;
+
+        setPreviewUrl(publicUrl);
+        setProgress(100);
+        onUpload(publicUrl);
+        toast.success('Uploaded successfully!');
+        setTimeout(() => setProgress(0), 600);
+
+      } catch (err: any) {
+        const errorName = err?.name ? `[${err.name}] ` : '';
+        const errorMessage = err?.message || 'Upload failed';
+        toast.error(`${errorName}${errorMessage}`);
+        setProgress(0);
+      } finally {
+        setUploading(false);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+      return;
+    }
+
     try {
       const fd = buildFormData(file, uploadMode, { assetType, slug, folder });
 
@@ -231,7 +337,7 @@ export default function MediaUploader({
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({})) as { error?: string };
-        throw new Error(body?.error ?? `Server error (${res.status})`);
+        throw new Error(body?.error ?? getStatusErrorText(res.status));
       }
 
       const data = await res.json() as { url: string };
@@ -242,7 +348,9 @@ export default function MediaUploader({
       setTimeout(() => setProgress(0), 600);
 
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Upload failed');
+      const errorName = err && typeof err === 'object' && 'name' in err && (err as any).name ? `[${(err as any).name}] ` : '';
+      const errorMessage = err instanceof Error ? err.message : 'Upload failed';
+      toast.error(`${errorName}${errorMessage}`);
       setProgress(0);
     } finally {
       setUploading(false);
