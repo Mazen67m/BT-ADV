@@ -207,29 +207,33 @@ export function BTSPage({ initialBts }: BTSPageProps) {
 
             return (
               <div key={item.id} className="bg-surface rounded-2xl border border-border-input overflow-hidden group relative break-inside-avoid">
-                <div className="w-full bg-[#020F1C] relative aspect-video">
-                  {/* Placeholder icon — shown as fallback / before load */}
-                  <div className="absolute inset-0 flex items-center justify-center text-border-input group-hover:text-white/10 transition-colors">
-                    {item.media_type === 'video' ? <Video className="w-10 h-10" /> : <ImageIcon className="w-10 h-10" />}
-                  </div>
+                <div className="w-full bg-[#020F1C] relative">
+                  {/* Placeholder icon — shown when no media URL */}
+                  {!item.media_url && (
+                    <div className="flex items-center justify-center text-border-input aspect-video">
+                      {item.media_type === 'video' ? <Video className="w-10 h-10" /> : <ImageIcon className="w-10 h-10" />}
+                    </div>
+                  )}
 
                   {/* Actual media */}
                   {item.media_url && (
                     item.media_type === 'video' ? (
                       <video
                         src={item.media_url}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="w-full h-auto block"
                         muted
                         preload="metadata"
                       />
                     ) : (
-                      <Image
-                        src={item.media_url}
-                        alt={item.title_en || item.title_ar || 'BTS media'}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
+                      <div className="relative aspect-video">
+                        <Image
+                          src={item.media_url}
+                          alt={item.title_en || item.title_ar || 'BTS media'}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      </div>
                     )
                   )}
 

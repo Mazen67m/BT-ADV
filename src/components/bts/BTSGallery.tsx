@@ -67,13 +67,13 @@ export default function BTSGallery({ media }: Props) {
                   />
                 </div>
               ) : (
-                <div className="relative w-full aspect-video bg-black">
+                <div className="relative w-full bg-black">
                   <video
                     src={item.media_url}
                     muted
                     playsInline
                     preload="metadata"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-14 h-14 rounded-full border-2 border-white/60 bg-black/40 backdrop-blur-sm flex items-center justify-center group-hover:border-yellow group-hover:bg-yellow/20 transition-all duration-300">
