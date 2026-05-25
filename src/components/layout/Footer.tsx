@@ -99,8 +99,8 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-3">
               <Mail size={16} className="text-yellow" />
-              <a href="mailto:support@advagency.com" className="hover:text-yellow transition-colors">
-                support@advagency.com
+              <a href="mailto:support@bt-advagency.com" className="hover:text-yellow transition-colors">
+                support@bt-advagency.com
               </a>
             </li>
             <li className="flex items-center gap-3">

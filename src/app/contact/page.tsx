@@ -89,8 +89,8 @@ export default function ContactPage() {
                 <Mail className="text-yellow shrink-0 mt-1" size={24} />
                 <div className="flex flex-col gap-1">
                   <span className="font-bold text-white uppercase tracking-wider text-sm">Email Us</span>
-                  <a href="mailto:support@advagency.com" className="text-white hover:text-yellow transition-colors">
-                    support@advagency.com
+                  <a href="mailto:support@bt-advagency.com" className="text-white hover:text-yellow transition-colors">
+                    support@bt-advagency.com
                   </a>
                 </div>
               </div>

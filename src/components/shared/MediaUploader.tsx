@@ -231,6 +231,11 @@ export default function MediaUploader({
 
     // Direct client-side upload for videos to bypass Vercel/proxy 4.5MB/10MB limits
     if (uploadMode === 'video') {
+      // AbortController lets us cancel the upload after a timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120_000); // 2-min hard timeout
+      let progressTicker: ReturnType<typeof setInterval> | null = null;
+
       try {
         const { createClient } = await import('@/lib/supabase/client');
         const supabase = createClient();
@@ -258,7 +263,13 @@ export default function MediaUploader({
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-|-$/g, '');
 
-        const path = `bts/videos/${cleanSlug}-${hashHex}.mp4`;
+        // Derive correct extension from the actual MIME type (not hardcoded .mp4)
+        const extMap: Record<string, string> = {
+          'video/mp4': 'mp4', 'video/webm': 'webm',
+          'video/ogg': 'ogg', 'video/quicktime': 'mov', 'video/x-msvideo': 'avi',
+        };
+        const ext = extMap[file.type] ?? 'mp4';
+        const path = `bts/videos/${cleanSlug}-${hashHex}.${ext}`;
         const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/${path}`;
 
         if (existing) {
@@ -272,6 +283,11 @@ export default function MediaUploader({
 
         setProgress(50);
 
+        // 3. Animate progress 50→82% while the blocking upload is in-flight
+        progressTicker = setInterval(() => {
+          setProgress(p => (p < 82 ? p + 1 : p));
+        }, 400);
+
         // 3. Upload to storage bucket directly
         const { error: uploadError } = await supabase.storage
           .from('media')
@@ -281,10 +297,12 @@ export default function MediaUploader({
             upsert: true,
           });
 
+        if (progressTicker) { clearInterval(progressTicker); progressTicker = null; }
         if (uploadError) throw uploadError;
-        setProgress(85);
+        setProgress(88);
 
         // 4. Insert media_asset registry record
+        // Use maybeSingle() — avoids PGRST116 if RLS blocks the return row
         const { error: insertError } = await supabase
           .from('media_assets')
           .insert({
@@ -297,7 +315,7 @@ export default function MediaUploader({
             alt_text: '',
           })
           .select('id')
-          .single();
+          .maybeSingle();
 
         if (insertError) throw insertError;
 
@@ -308,11 +326,17 @@ export default function MediaUploader({
         setTimeout(() => setProgress(0), 600);
 
       } catch (err: any) {
+        if (progressTicker) { clearInterval(progressTicker); progressTicker = null; }
+        const isAbort = err?.name === 'AbortError';
         const errorName = err?.name ? `[${err.name}] ` : '';
-        const errorMessage = err?.message || 'Upload failed';
+        const errorMessage = isAbort
+          ? 'Upload timed out after 2 minutes. Try a smaller file or check your connection.'
+          : (err?.message || 'Upload failed');
         toast.error(`${errorName}${errorMessage}`);
         setProgress(0);
       } finally {
+        clearTimeout(timeoutId);
+        if (progressTicker) clearInterval(progressTicker);
         setUploading(false);
         if (fileInputRef.current) fileInputRef.current.value = '';
       }

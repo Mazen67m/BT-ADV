@@ -40,7 +40,7 @@ const SECURITY_HEADERS = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://res.cloudinary.com https://*.supabase.co https://*.supabase.in https://img.youtube.com",
-      "media-src 'self' https://res.cloudinary.com",
+      "media-src 'self' https://res.cloudinary.com https://*.supabase.co https://*.supabase.in",
       // Supabase Realtime uses WebSocket — wss:// must be explicitly allowed
       // Turbopack hot-reload uses ws://localhost in dev
       `connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in https://*.upstash.io https://*.ingest.sentry.io${isDev ? ' ws://localhost:*' : ''}`,

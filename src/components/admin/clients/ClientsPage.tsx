@@ -214,8 +214,15 @@ export function ClientsPage({ initialClients }: ClientsPageProps) {
     }
   };
 
-  // Sort clients by order_index
-  const sortedClients = [...clients].sort((a, b) => a.order_index - b.order_index);
+  // Sort clients by order_index, and then by name (deterministic Unicode comparison) for duplicates
+  const sortedClients = [...clients].sort((a, b) => {
+    if (a.order_index !== b.order_index) {
+      return a.order_index - b.order_index;
+    }
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
 
   return (
     <div className="space-y-8">

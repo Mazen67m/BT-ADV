@@ -285,7 +285,8 @@ const _getClients = async (): Promise<Client[]> => {
   const { data, error } = await supabase
     .from('clients')
     .select('*')
-    .order('order_index', { ascending: true });
+    .order('order_index', { ascending: true })
+    .order('name', { ascending: true });
 
   if (error) { console.error('[getClients]', error.message); return []; }
   return data as Client[];
